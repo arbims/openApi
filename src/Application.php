@@ -16,6 +16,7 @@ declare(strict_types=1);
  */
 namespace App;
 
+use App\Middleware\JsonResponseMiddleware;
 use Authentication\AuthenticationService;
 use Authentication\AuthenticationServiceInterface;
 use Authentication\AuthenticationServiceProviderInterface;
@@ -86,17 +87,16 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
             // caching in production could improve performance.
             // See https://github.com/CakeDC/cakephp-cached-routing
             ->add(new RoutingMiddleware($this))
-
             // Parse various types of encoded request bodies so that they are
             // available as array through $request->getData()
             // https://book.cakephp.org/4/en/controllers/middleware.html#body-parser-middleware
             ->add(new BodyParserMiddleware())
-
             // Cross Site Request Forgery (CSRF) Protection Middleware
             // https://book.cakephp.org/4/en/security/csrf.html#cross-site-request-forgery-csrf-middleware
             // ->add(new CsrfProtectionMiddleware([
             //     'httponly' => true,
             // ]))
+            ->add(new JsonResponseMiddleware())
             ->add(new AuthenticationMiddleware($this));
 
         return $middlewareQueue;
@@ -123,26 +123,28 @@ public function getAuthenticationService(ServerRequestInterface $request): Authe
 {
     $service = new AuthenticationService();
 
-    // Define where users should be redirected to when they are not authenticated
-    $service->loadIdentifier('Authentication.Token', [
-        'dataField' => 'token',
-        'tokenField' => 'token',
-        'resolver' => [
-            'className' => 'Authentication.Orm',
-            'userModel' => 'Users',
-            'finder' => 'all', // default: 'all'
-        ],
-        'hashAlgorithm' => 'sha256',
-    ]);
-
-    $service->loadAuthenticator('Authentication.Token', [
-        'queryParam' => 'token',
+    $fields = [
+        AbstractIdentifier::CREDENTIAL_USERNAME => 'email',
+        AbstractIdentifier::CREDENTIAL_PASSWORD => 'password'
+    ];
+    
+   // Load the authenticators.
+    $service->loadAuthenticator('Authentication.Jwt', [
+        'secretKey' => file_get_contents(CONFIG . '/jwt.pem'),
+        'algorithm' => 'RS256',
+        'returnPayload' => false,
         'header' => 'X-Authorization-Token',
-        'tokenPrefix' => 'Token',
+    ]);
+    $service->loadAuthenticator('Authentication.Form', [
+        'fields' => $fields,
     ]);
 
     // Load identifiers
-    //$service->loadIdentifier('Authentication.Password', compact('fields'));
+    $service->loadIdentifier('Authentication.JwtSubject');
+    $service->loadIdentifier('Authentication.Password', [
+        'returnPayload' => false,
+        'fields' => $fields,
+    ]);
 
     return $service;
 }

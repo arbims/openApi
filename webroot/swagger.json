@@ -24,6 +24,15 @@
                 ],
                 "parameters": [
                     {
+                        "in": "header",
+                        "name": "X-Authorization-Token",
+                        "description": "token bearer",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
                         "$ref": "#\/x-swagger-bake\/components\/parameters\/paginatorPage"
                     },
                     {
@@ -44,15 +53,6 @@
                     },
                     {
                         "$ref": "#\/x-swagger-bake\/components\/parameters\/paginatorDirection"
-                    },
-                    {
-                        "in": "query",
-                        "name": "token",
-                        "description": "token",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        }
                     }
                 ],
                 "responses": {
@@ -118,8 +118,8 @@
                 "parameters": [
                     {
                         "in": "header",
-                        "name": "X-CSRF-TOKEN",
-                        "description": "csrf_token",
+                        "name": "X-Authorization-Token",
+                        "description": "token bearer",
                         "required": false,
                         "schema": {
                             "type": "string"
@@ -297,8 +297,8 @@
                     },
                     {
                         "in": "header",
-                        "name": "X-CSRF-TOKEN",
-                        "description": "csrf_token",
+                        "name": "X-Authorization-Token",
+                        "description": "token bearer",
                         "required": false,
                         "schema": {
                             "type": "string"
@@ -420,8 +420,8 @@
                     },
                     {
                         "in": "header",
-                        "name": "X-CSRF-TOKEN",
-                        "description": "csrf_token",
+                        "name": "X-Authorization-Token",
+                        "description": "token bearer",
                         "required": false,
                         "schema": {
                             "type": "string"
@@ -496,26 +496,24 @@
                 "tags": [
                     "Users"
                 ],
-                "parameters": [
-                    {
-                        "in": "header",
-                        "name": "X-Authorization-Token",
-                        "description": "Token",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "in": "header",
-                        "name": "X-CSRF-TOKEN",
-                        "description": "csrf_token",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
+                "requestBody": {
+                    "content": {
+                        "application\/json": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
                         }
                     }
-                ],
+                },
+                "parameters": [],
                 "responses": {
                     "200": {
                         "description": "",
@@ -590,6 +588,10 @@
                         "type": "integer",
                         "format": "int64",
                         "readOnly": true
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email"
                     },
                     "username": {
                         "type": "string",

@@ -1,0 +1,8 @@
+[36musing connection[0m default
+[36musing paths[0m /home/arbi/workspace/openApi/config/Seeds
+[36mordering by[0m creation time
+
+ == [36mUserSeed:[0m [34mseeding [0m
+    -> 0.0009s
+ == [36mUserSeed:[0m [34mseeded 0.0912s[0m
+[34mAll Done. Took 0.0931s[0m

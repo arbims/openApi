@@ -83,7 +83,7 @@ $routes->scope('/', function (RouteBuilder $builder) {
 
         $routes->get('/csrf', ['controller' => 'Welcome', 'action' => 'csrf']);
         $routes->resources('Categories');
-        $routes->get('/login', ['controller' => 'Users', 'action' => 'login']);
+        //$routes->get('/login', ['controller' => 'Users', 'action' => 'login']);
         $routes->post('/login', ['controller' => 'Users', 'action' => 'login']);
     });
 

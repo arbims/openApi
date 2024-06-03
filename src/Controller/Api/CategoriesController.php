@@ -8,6 +8,7 @@ use Cake\View\JsonView;
 use SwaggerBake\Lib\Attribute\OpenApiHeader;
 use SwaggerBake\Lib\Attribute\OpenApiPaginator;
 use SwaggerBake\Lib\Attribute\OpenApiQueryParam;
+use SwaggerBake\Lib\Attribute\OpenApiSecurity;
 
 /**
  * Categories Controller
@@ -28,7 +29,7 @@ class CategoriesController extends AppController
      * @throws \Cake\Http\Exception\MethodNotAllowedException
      */
     #[OpenApiPaginator]
-    #[OpenApiQueryParam(name: 'token', type: 'string', description: 'token')]
+    #[OpenApiHeader(name: 'X-Authorization-Token', type: 'string', description: 'token bearer')]
     public function index()
     {
         $this->request->allowMethod('get');
@@ -65,7 +66,7 @@ class CategoriesController extends AppController
      * @throws \MixerApi\ExceptionRender\OpenApiExceptionSchema
      * @throws \Exception
      */
-    #[OpenApiHeader(name: 'X-CSRF-TOKEN', type: 'string', description: 'csrf_token')]
+    #[OpenApiHeader(name: 'X-Authorization-Token', type: 'string', description: 'token bearer')]
     public function add()
     {
         $this->request->allowMethod('post');
@@ -90,7 +91,7 @@ class CategoriesController extends AppController
      * @throws \MixerApi\ExceptionRender\OpenApiExceptionSchema
      * @throws \Exception
      */
-    #[OpenApiHeader(name: 'X-CSRF-TOKEN', type: 'string', description: 'csrf_token')]
+    #[OpenApiHeader(name: 'X-Authorization-Token', type: 'string', description: 'token bearer')]
     public function edit($id = null)
     {
         $this->request->allowMethod(['patch', 'post', 'put']);
@@ -116,7 +117,7 @@ class CategoriesController extends AppController
      * @throws \Cake\Http\Exception\MethodNotAllowedException
      * @throws \Exception
      */
-    #[OpenApiHeader(name: 'X-CSRF-TOKEN', type: 'string', description: 'csrf_token')]
+    #[OpenApiHeader(name: 'X-Authorization-Token', type: 'string', description: 'token bearer')]
     public function delete($id = null)
     {
         $this->request->allowMethod(['delete']);

@@ -5,6 +5,7 @@ namespace App\Controller\Api;
 use App\Controller\AppController;
 use Cake\Utility\Text;
 use Cake\View\JsonView;
+use Firebase\JWT\JWT;
 use SwaggerBake\Lib\Attribute\OpenApiForm;
 use SwaggerBake\Lib\Attribute\OpenApiHeader;
 use SwaggerBake\Lib\Attribute\OpenApiRequestBody;
@@ -29,28 +30,27 @@ class UsersController extends AppController
         $this->Authentication->allowUnauthenticated(['login']);
     }
 
-    #[OpenApiHeader(name: 'X-Authorization-Token', type: 'string', description: 'Token')]
-    #[OpenApiHeader(name: 'X-CSRF-TOKEN', type: 'string', description: 'csrf_token')]
+    #[OpenApiForm(name: "email", type: "string")]
+    #[OpenApiForm(name: "password", type: "string")]
     public function login()
     {
-        $this->request->allowMethod(['post']);
-        //$this->request->withHeader('Authorization'));
-        $user = $this->Authentication->getResult()->getData();
-        if ($user) {
-            // Générer un token unique
-            $data = [
-                'success' => true,
-                'data' => [
-                    'token' => $user->token
-                ]
+        $result = $this->Authentication->getResult();
+        if ($result->isValid()) {
+            $privateKey = file_get_contents(CONFIG . '/jwt.key');
+            $user = $result->getData();
+            $payload = [
+                'iss' => 'myapp',
+                'sub' => $user->id,
+                'exp' => time() + 60,
+            ];
+            $json = [
+                'token' => JWT::encode($payload, $privateKey, 'RS256'),
             ];
         } else {
-            $data = [
-                'success' => false,
-                'message' => 'Invalid username or password'
-            ];
+            $this->response = $this->response->withStatus(401);
+            $json = [];
         }
-        $this->set(compact('data'));
-        $this->viewBuilder()->setOption('serialize', 'data');
+        $this->set(compact('json'));
+        $this->viewBuilder()->setOption('serialize', 'json');
     }
 }

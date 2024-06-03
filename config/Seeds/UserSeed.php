@@ -28,6 +28,7 @@ class UserSeed extends AbstractSeed
     	$password = (new DefaultPasswordHasher())->hash('admin');
         $data = [
     	    'username' => 'admin',
+            'email' => 'admin@gmail.com',
     	    'password' => $password,
             'token' =>  Security::hash('admin', 'sha256')
     	];

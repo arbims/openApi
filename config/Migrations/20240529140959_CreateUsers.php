@@ -16,8 +16,9 @@ class CreateUsers extends AbstractMigration
     {
         $table = $this->table('users');
         $table->addColumn('email','string')
+            ->addColumn('username','string')
             ->addColumn('password','string')
-            ->addColumn('api_token','string');
+            ->addColumn('token','string');
         $table->create();
     }
 }

@@ -55,6 +55,10 @@ class UsersTable extends Table
             ->allowEmptyString('username');
 
         $validator
+            ->email('email')
+            ->allowEmptyString('email');
+
+        $validator
             ->scalar('password')
             ->allowEmptyString('password');
 
