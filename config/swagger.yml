@@ -1,15 +1,13 @@
 openapi: "3.0.0"
 info:
   version: 1.0.0
-  title: SwaggerBake - A MixerAPI Project
+  title: Test Api - OpenApi
   description: |
-    For documentation please review the project [README](https://github.com/cnizzardini/cakephp-swagger-bake) and for
-    other great API related packages checkout [MixerAPI](http://mixerapi.com). To change this text edit your
-    `swagger.yaml` file.
+    ``` Cakephp OpenApi With JWT ```
   license:
-    name: YOUR-LICENSE-HERE
+    name: GPL
 servers:
-  - url: /
+  - url: http://localhost:8080
 paths:
 
 definitions:

@@ -26,7 +26,7 @@ use Cake\Core\Configure;
  * ################################
  * # OPTIONAL SETTINGS:
  * ################################
- * 
+ *
  * @var string $connectionName The connection name to use when loading tables for building schemas from models.
  *      Default: default
  *

@@ -7,6 +7,7 @@ use App\Controller\AppController;
 use Cake\View\JsonView;
 use MixerApi\Welcome;
 use SwaggerBake\Lib\Attribute\OpenApiResponse;
+use SwaggerBake\Lib\Attribute\OpenApiSecurity;
 
 class WelcomeController extends AppController
 {
@@ -40,6 +41,8 @@ class WelcomeController extends AppController
         $this->viewBuilder()->setOption('serialize', 'info');
     }
 
+    #[OpenApiSecurity(name: 'BearerAuth', scopes: ['read'])]
+    #[OpenApiSecurity(name: 'ApiKey')]
     public function csrf()
     {
         $csrf = ['csrf' => $this->request->getAttribute('csrfToken')];
