@@ -37,6 +37,14 @@ components:
           type: boolean
       xml:
         name: response
+
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  security:
+    - BearerAuth: []
 x-swagger-bake:
   components:
     schemas:
@@ -76,3 +84,10 @@ x-swagger-bake:
                 type: string
                 format: url
                 example: /index?page=:number
+    securitySchemes:
+      BearerAuth:
+        type: http
+        scheme: bearer
+        bearerFormat: JWT
+    security:
+      - BearerAuth: []

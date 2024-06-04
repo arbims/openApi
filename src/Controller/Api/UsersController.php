@@ -32,6 +32,8 @@ class UsersController extends AppController
 
     #[OpenApiForm(name: "email", type: "string")]
     #[OpenApiForm(name: "password", type: "string")]
+    #[OpenApiSecurity(name: 'BearerAuth', scopes: ['read'])]
+    #[OpenApiSecurity(name: 'ApiKey')]
     public function login()
     {
         $result = $this->Authentication->getResult();

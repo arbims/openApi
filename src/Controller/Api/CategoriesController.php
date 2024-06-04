@@ -29,7 +29,8 @@ class CategoriesController extends AppController
      * @throws \Cake\Http\Exception\MethodNotAllowedException
      */
     #[OpenApiPaginator]
-    #[OpenApiHeader(name: 'X-Authorization-Token', type: 'string', description: 'token bearer')]
+    #[OpenApiSecurity(name: 'BearerAuth', scopes: ['read'])]
+    #[OpenApiSecurity(name: 'ApiKey')]
     public function index()
     {
         $this->request->allowMethod('get');
@@ -47,6 +48,8 @@ class CategoriesController extends AppController
      * @throws \Cake\Datasource\Exception\RecordNotFoundException
      * @throws \Cake\Http\Exception\MethodNotAllowedException
      */
+    #[OpenApiSecurity(name: 'BearerAuth', scopes: ['read'])]
+    #[OpenApiSecurity(name: 'ApiKey')]
     public function view($id = null)
     {
         $this->request->allowMethod('get');
@@ -66,7 +69,8 @@ class CategoriesController extends AppController
      * @throws \MixerApi\ExceptionRender\OpenApiExceptionSchema
      * @throws \Exception
      */
-    #[OpenApiHeader(name: 'X-Authorization-Token', type: 'string', description: 'token bearer')]
+    #[OpenApiSecurity(name: 'BearerAuth', scopes: ['read'])]
+    #[OpenApiSecurity(name: 'ApiKey')]
     public function add()
     {
         $this->request->allowMethod('post');
@@ -91,7 +95,8 @@ class CategoriesController extends AppController
      * @throws \MixerApi\ExceptionRender\OpenApiExceptionSchema
      * @throws \Exception
      */
-    #[OpenApiHeader(name: 'X-Authorization-Token', type: 'string', description: 'token bearer')]
+    #[OpenApiSecurity(name: 'BearerAuth', scopes: ['read'])]
+    #[OpenApiSecurity(name: 'ApiKey')]
     public function edit($id = null)
     {
         $this->request->allowMethod(['patch', 'post', 'put']);
@@ -117,7 +122,8 @@ class CategoriesController extends AppController
      * @throws \Cake\Http\Exception\MethodNotAllowedException
      * @throws \Exception
      */
-    #[OpenApiHeader(name: 'X-Authorization-Token', type: 'string', description: 'token bearer')]
+    #[OpenApiSecurity(name: 'BearerAuth', scopes: ['read'])]
+    #[OpenApiSecurity(name: 'ApiKey')]
     public function delete($id = null)
     {
         $this->request->allowMethod(['delete']);

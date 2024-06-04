@@ -127,13 +127,15 @@ public function getAuthenticationService(ServerRequestInterface $request): Authe
         AbstractIdentifier::CREDENTIAL_USERNAME => 'email',
         AbstractIdentifier::CREDENTIAL_PASSWORD => 'password'
     ];
-    
+
    // Load the authenticators.
     $service->loadAuthenticator('Authentication.Jwt', [
         'secretKey' => file_get_contents(CONFIG . '/jwt.pem'),
         'algorithm' => 'RS256',
         'returnPayload' => false,
-        'header' => 'X-Authorization-Token',
+        'header' => 'Authorization',
+        'prefix' => 'Bearer',
+        //'header' => 'X-Authorization-Token',
     ]);
     $service->loadAuthenticator('Authentication.Form', [
         'fields' => $fields,
