@@ -41,16 +41,21 @@ class UsersController extends AppController
             $privateKey = file_get_contents(CONFIG . '/jwt.key');
             $user = $result->getData();
             $payload = [
-                'iss' => 'myapp',
+                //'iss' => 'api',
+                'iat' => time(),
                 'sub' => $user->id,
                 'exp' => time() + 60,
+                'role' => [
+                    'admin'
+                ],
+                'username' => $user->username
             ];
             $json = [
                 'token' => JWT::encode($payload, $privateKey, 'RS256'),
             ];
         } else {
             $this->response = $this->response->withStatus(401);
-            $json = [];
+            $json = ['login or password incorrect !'];
         }
         $this->set(compact('json'));
         $this->viewBuilder()->setOption('serialize', 'json');
