@@ -13,7 +13,7 @@
         "cnizzardini/cakephp-swagger-bake": "^3.0",
         "friendsofcake/search": "^7.1",
         "mixerapi/mixerapi": "^2.0",
-        "mobiledetect/mobiledetectlib": "^3.74"
+        "mobiledetect/mobiledetectlib": "^4.8"
     },
     "require-dev": {
         "cakephp/bake": "^3.0.0",
